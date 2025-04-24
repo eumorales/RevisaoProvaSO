@@ -1,40 +1,69 @@
-# 📘 Resumo para Prova 
+# 📘 Resumo para Prova de Sistemas Operacionais
 
 ---
 
 ## 🧵 1. Programação Concorrente
 - Execução **simultânea** de múltiplos fluxos de instruções.
-- Cada thread pode operar de forma independente dentro de um processo.
-- Reduz a sobrecarga de criação e gerenciamento comparado à multiprogramação tradicional.
+- Threads compartilham o mesmo espaço de endereçamento do processo, tornando a troca de contexto mais leve.
+- Programação multithreading melhora a capacidade de resposta, economia de recursos e desempenho em aplicações multiprocessadas.
 
 ---
 
-## ⚠️ 2. Condição de Corrida (Race Condition)
+## 👥 2. Processo vs. Thread
+- **Processo:** unidade de execução com espaço de memória isolado.
+- **Thread:** "processo leve", compartilha memória com outras threads do mesmo processo.
+- Vantagens das threads: criação mais rápida, menor custo de troca de contexto, ideal para paralelismo.
+
+### Modelos de Multithreading:
+- **N:1:** todas as threads de usuário mapeadas para uma única thread de kernel.
+- **1:1:** cada thread de usuário corresponde a uma thread de kernel.
+- **M:N:** múltiplas threads de usuário para múltiplas de kernel, com escalonamento em dois níveis.
+
+---
+
+## ⚠️ 3. Condição de Corrida (Race Condition)
 - Ocorre quando dois ou mais processos acessam dados compartilhados ao mesmo tempo e o resultado depende da ordem de execução.
 - Solução: técnicas de sincronização como semáforos, mutexes e monitores.
 
 ---
 
-## 🔁 3. Escalonamento de Processos
+## 🔁 4. Escalonamento de Processos
 ### Preemptivo vs. Não-Preemptivo
 - **Preemptivo:** a CPU pode ser retirada de um processo em execução (ex: RR, SJF preemptivo).
 - **Não-Preemptivo:** o processo libera a CPU voluntariamente (ex: FIFO, SJF não-preemptivo).
 
 ### Objetivos do escalonamento:
-- Maximizar a utilização da CPU 🧠
-- Minimizar tempo de resposta e espera 🕐
+- Maximizar utilização da CPU 🧠
+- Minimizar tempo de resposta, espera e retorno ⏳
 - Garantir justiça entre os processos ⚖️
 
-### Tipos de Escalonamento:
-- **FIFO (First In, First Out)**
-- **SJF (Shortest Job First)**
-- **Prioridade** (preemptivo e não-preemptivo)
-- **Round Robin (RR)**
-- **Múltiplas Filas com Realimentação**
+### Escalonadores e Dispatcher
+- **Escalonador de curto prazo:** escolhe qual processo será executado.
+- **Dispatcher:** realiza a troca de contexto e passa o controle à CPU.
 
 ---
 
-## 🔐 4. Problema da Seção Crítica
+## 📊 5. Políticas de Escalonamento
+- **FIFO (FCFS):** simples, mas pode causar longas esperas.
+- **SJF:** ótimo para tempos curtos, mas difícil prever surto de CPU. Pode ser preemptivo (SRTF).
+- **Prioridade:** escolhe com base em número; pode causar starvation.
+- **Round Robin (RR):** bom para tempo compartilhado, depende do quantum.
+- **Múltiplas Filas:** separa por tipo (interativo, batch). Cada fila pode ter seu algoritmo.
+- **Múltiplas Filas com Realimentação:** processos migram entre filas, evita starvation.
+
+### Técnicas auxiliares:
+- **Envelhecimento (Aging):** aumenta prioridade de processos que esperam muito.
+
+---
+
+## ⏱️ 6. Métricas de Desempenho
+- **Tempo de Espera:** tempo na fila de prontos.
+- **Tempo de Retorno:** tempo desde a submissão até finalização.
+- **Tempo de Resposta:** tempo até a primeira resposta do sistema.
+
+---
+
+## 🔐 7. Problema da Seção Crítica
 ### Requisitos:
 - Exclusão mútua ✅
 - Progresso ✅
@@ -43,20 +72,35 @@
 
 ---
 
-## 🔄 5. Semáforos
-- Usados para controlar o acesso a recursos compartilhados.
-- Operações: `P()` (decrementa) e `V()` (incrementa).
-- Podem levar a **deadlock** ou **inanição** se mal utilizados.
+## 🔄 8. Semáforos
+- Controlam o acesso a recursos compartilhados.
+- Operações: `P()` (wait) e `V()` (signal).
+- Problemas: deadlock ou inanição se mal utilizados.
 
 ---
 
-## 🔒 6. Mutex
-- Tipo de lock binário para garantir exclusão mútua.
-- Usado em regiões críticas para evitar condição de corrida.
+## 🔒 9. Mutex
+- Lock binário que garante exclusão mútua.
+- Ideal para evitar condições de corrida.
 
 ---
 
-## 🛑 7. Deadlock
+## 🧩 10. Monitores
+- Estrutura de sincronização de alto nível.
+- Utiliza `wait()` e `signal()` para controlar acesso.
+- Muito usado em linguagens OO como Java.
+
+---
+
+## 🛠️ 11. Técnicas de Proteção da Seção Crítica
+- Semáforos ✅
+- Mutexes ✅
+- Desabilitar interrupções ✅ (uso em sistemas embarcados)
+- Monitores ✅
+
+---
+
+## 🛑 12. Deadlock
 ### Condições de Coffman:
 1. Exclusão mútua
 2. Retenção e espera
@@ -64,60 +108,21 @@
 4. Espera circular
 
 ### Estratégias:
-- **Prevenção:** quebra das condições de Coffman.
-- **Evitação:** análise dinâmica (ex: algoritmo do banqueiro).
-- **Detecção e recuperação:** monitoramento e intervenção.
+- **Prevenção:** remove uma das condições.
+- **Evitação:** ex: algoritmo do banqueiro.
+- **Detecção e Recuperação:** identifica e mata processos ou retira recursos.
 
 ---
 
-## 🧯 8. Starvation
-- Quando um processo **nunca é escalonado** por causa da baixa prioridade.
-- Solução: **realimentação de prioridades** (ex: Múltiplas Filas com Realimentação).
+## 🧯 13. Starvation
+- Quando um processo **nunca é executado** por estar sempre sendo preterido.
+- Solução: **envelhecimento** (aging).
 
 ---
 
-## 🧩 9. Monitores
-- Estrutura de sincronização de alto nível.
-- Utiliza `wait()` e `signal()` para controle de acesso.
-- Muito usados em linguagens orientadas a objeto (ex: Java).
-
----
-
-## 🛠️ 10. Técnicas de Proteção da Seção Crítica
-- **Semáforos**
-- **Mutexes**
-- **Desabilitar interrupções** (sistemas embarcados)
-- **Monitores**
-
----
-
-## 📊 11. Políticas de Escalonamento Detalhadas
-### FIFO
-- Ordem de chegada.
-- Simples, mas pode causar starvation de processos curtos.
-
-### SJF
-- Executa os processos com menor tempo de CPU.
-- Versões: **preemptivo (SRTF)** e **não-preemptivo**.
-
-### Round Robin (RR)
-- Cada processo recebe um **quantum** de tempo.
-- Boa para sistemas interativos.
-- Quantum muito grande = vira FIFO; muito pequeno = muitas trocas de contexto.
-
-### Prioridade
-- Executa o processo com **maior prioridade**.
-- Pode causar starvation dos processos com baixa prioridade.
-
-### Múltiplas Filas com Realimentação
-- Os processos migram entre filas com base em seu comportamento (I/O bound ou CPU bound).
-- Garante justiça e evita starvation.
-
----
-
-### ⏱️ Cálculos Importantes:
-- **Tempo de Espera:** tempo total na fila de prontos.
-- **Tempo de Retorno:** tempo total desde a chegada até o término.
-- **Tempo Médio de Espera:** média dos tempos de espera de todos os processos.
+## 💻 14. Modo Dual e Chamadas ao Sistema
+- **Modo usuário** vs. **Modo kernel**: garante segurança e proteção dos recursos.
+- **Chamada ao sistema (System Call):** forma do programa acessar serviços do SO.
+- Ex: fork, exec, wait, open, read, write, exit.
 
 ---
