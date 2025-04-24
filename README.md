@@ -4,42 +4,42 @@
 
 ## 🧵 1. Programação Concorrente
 - Execução **simultânea** de múltiplos fluxos de instruções.
-- Threads compartilham o mesmo espaço de endereçamento do processo, tornando a troca de contexto mais leve.
-- Programação multithreading melhora a capacidade de resposta, economia de recursos e desempenho em aplicações multiprocessadas.
+- Threads compartilham a mesma memória do processo, tornando a troca de contexto mais rápida.
+- Melhora a capacidade de resposta, economiza recursos e aumenta o desempenho em sistemas com vários processadores.
 
 ---
 
 ## 👥 2. Processo vs. Thread
-- **Processo:** unidade de execução com espaço de memória isolado.
+- **Processo:** unidade de execução com memória isolada.
 - **Thread:** "processo leve", compartilha memória com outras threads do mesmo processo.
-- Vantagens das threads: criação mais rápida, menor custo de troca de contexto, ideal para paralelismo.
+- Vantagens das threads: criação mais rápida, menor custo para troca de contexto, ideal para tarefas paralelas.
 
 ### Modelos de Multithreading:
-- **N:1:** todas as threads de usuário mapeadas para uma única thread de kernel.
-- **1:1:** cada thread de usuário corresponde a uma thread de kernel.
-- **M:N:** múltiplas threads de usuário para múltiplas de kernel, com escalonamento em dois níveis.
+- **N:1:** várias threads de usuário mapeadas para uma única thread de kernel.
+- **1:1:** cada thread de usuário tem uma thread de kernel.
+- **M:N:** várias threads de usuário para várias de kernel, escalonamento em dois níveis.
 
 ---
 
 ## ⚠️ 3. Condição de Corrida (Race Condition)
-- Ocorre quando dois ou mais processos acessam dados compartilhados ao mesmo tempo e o resultado depende da ordem de execução.
+- Ocorre quando dois ou mais processos acessam dados ao mesmo tempo e o resultado depende da ordem de execução.
 - Solução: técnicas de sincronização como semáforos, mutexes e monitores.
 
 ---
 
 ## 🔁 4. Escalonamento de Processos
 ### Preemptivo vs. Não-Preemptivo
-- **Preemptivo:** a CPU pode ser retirada de um processo em execução (ex: RR, SJF preemptivo).
-- **Não-Preemptivo:** o processo libera a CPU voluntariamente (ex: FIFO, SJF não-preemptivo).
+- **Preemptivo:** a CPU pode ser retirada de um processo (ex: Round Robin).
+- **Não-Preemptivo:** o processo libera a CPU voluntariamente (ex: FIFO).
 
 ### Objetivos do escalonamento:
-- Maximizar utilização da CPU 🧠
-- Minimizar tempo de resposta, espera e retorno ⏳
+- Maximizar uso da CPU 🧠
+- Minimizar tempos de espera e resposta ⏳
 - Garantir justiça entre os processos ⚖️
 
 ### Escalonadores e Dispatcher
 - **Escalonador de curto prazo:** escolhe qual processo será executado.
-- **Dispatcher:** realiza a troca de contexto e passa o controle à CPU.
+- **Dispatcher:** faz a troca de contexto e passa o controle para a CPU.
 
 ---
 
@@ -124,5 +124,5 @@
 - **Modo usuário** vs. **Modo kernel**: garante segurança e proteção dos recursos.
 - **Chamada ao sistema (System Call):** forma do programa acessar serviços do SO.
 - Ex: fork, exec, wait, open, read, write, exit.
-
+  
 ---
